@@ -37,6 +37,7 @@ async def get_person(people_id: int, session: ClientSession):
     async with session.get(f'https://swapi.dev/api/people/{people_id}') as response:
         json_data = await response.json()
         serialized = serialaizer(json_data)
+        serialized['id'] = people_id
     print(f'end {people_id}')
     return serialized
 
@@ -54,6 +55,7 @@ async def get_people():
 async def insert_people(people_chunk):
     async with models.Session() as session:
         session.add_all([models.People(
+            id=item.get('id'),
             birth_year=item.get('birth_year'),
             eye_color=item.get('eye_color'),
             gender=item.get('gender'),
@@ -83,6 +85,7 @@ async def main():
     tasks = set(asyncio.all_tasks()) - {asyncio.current_task()}
     for task in tasks:
         await task
+
 
 start = datetime.datetime.now()
 asyncio.run(main())

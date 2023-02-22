@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "hw-flask"
+version = "0.1.0"
+description = ""
+authors = ["Andrey Shishov <a.5920311@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "hw_flask"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^2.2.2"
+requests = "^2.28.2"
+pydantic = "^1.10.4"
+sqlalchemy = "^2.0.2"
+psycopg2-binary = "^2.9.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

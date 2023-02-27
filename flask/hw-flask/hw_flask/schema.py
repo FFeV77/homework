@@ -4,13 +4,21 @@ from pydantic.error_wrappers import ValidationError
 from http_errors import HttpError
 
 
-class CreateAdvert(BaseModel):
+class ValidateCreateUser(BaseModel):
+
+    name: str
+    email: str
+    pwd: str
+
+
+class ValidateCreateItem(BaseModel):
 
     title: str
     description: str
+    owner_id: int
 
 
-class GetAdvert(BaseModel):
+class ValidateGetItem(BaseModel):
 
     id: int
     title: str
@@ -22,12 +30,17 @@ class GetAdvert(BaseModel):
         orm_mode = True
 
 
-def validate_create_advert(data):
+def validate_create_item(data):
     try:
-        advert = CreateAdvert(**data)
+        advert = ValidateCreateItem(**data)
         return advert.dict()
     except ValidationError as er:
         raise HttpError(400, er.errors())
-    
 
-print(validate_create_advert({'title': 'second', 'description': 1}))
+
+def validate_create_user(data):
+    try:
+        user = ValidateCreateUser(**data)
+        return user.dict()
+    except ValidationError as er:
+        raise HttpError(400, er.errors())

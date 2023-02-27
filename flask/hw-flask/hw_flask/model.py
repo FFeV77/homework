@@ -1,26 +1,20 @@
-from typing import List
 from sqlalchemy import create_engine, String, Integer, ForeignKey, URL, TIMESTAMP, DateTime
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, Session
 from sqlalchemy.sql.expression import func
+import config
 
-DB_HOST = '127.0.0.1'
-DB_PORT = 8000
-DB_DIALECT = 'postgresql'
-DB_DRIVER = 'psycopg2'
-DB_USER = 'postgres'
-DB_PASSWORD = 'postgres'
-DB_NAME = 'advt_db'
 
 db_url = URL.create(
-    drivername='+'.join([DB_DIALECT, DB_DRIVER]),
-    username=DB_USER,
-    password=DB_PASSWORD,
-    host=DB_HOST,
-    port=DB_PORT,
-    database=DB_NAME
+    drivername='+'.join([config.DB_DIALECT, config.DB_DRIVER]),
+    username=config.DB_USER,
+    password=config.DB_PASSWORD,
+    host=config.DB_HOST,
+    port=config.DB_PORT,
+    database=config.DB_NAME
 )
 
 engine = create_engine(db_url, echo=True)
+Session = Session(engine)
 
 
 class Base(DeclarativeBase):
@@ -31,11 +25,11 @@ class User(Base):
     __tablename__ = 'user'
 
     id = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String(length=30))
+    name: Mapped[str] = mapped_column(String(length=30), unique=True)
     email: Mapped[str] = mapped_column(String(length=30))
-    pwd: Mapped[str] = mapped_column(String(length=30))
+    pwd: Mapped[str] = mapped_column(String(length=300))
 
-    advertisements: Mapped[List['Advertisement']] = relationship(back_populates='user')
+    advertisements: Mapped[list['Advertisement']] = relationship(back_populates='user')
 
 
 class Advertisement(Base):

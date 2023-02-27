@@ -13,6 +13,7 @@ requests = "^2.28.2"
 pydantic = "^1.10.4"
 sqlalchemy = "^2.0.2"
 psycopg2-binary = "^2.9.5"
+environs = "^9.5.0"
 
 
 [build-system]

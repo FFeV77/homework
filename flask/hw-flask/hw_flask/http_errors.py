@@ -1,5 +1,4 @@
 
-
 class HttpError(Exception):
 
     def __init__(self, code, message):

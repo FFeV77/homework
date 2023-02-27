@@ -14,6 +14,8 @@ pydantic = "^1.10.4"
 sqlalchemy = "^2.0.2"
 psycopg2-binary = "^2.9.5"
 environs = "^9.5.0"
+pytest = "^7.2.1"
+coverage = "^7.2.1"
 
 
 [build-system]

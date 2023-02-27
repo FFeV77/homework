@@ -13,4 +13,3 @@ DB_USER = env('DB_USER')
 DB_PASSWORD = env('DB_PASSWORD')
 DB_NAME = env('DB_NAME')
 SECRET_KEY = env('SECRET_KEY')
-

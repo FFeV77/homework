@@ -1,8 +1,8 @@
-from flask import jsonify, request, Blueprint, session, g
+from flask import jsonify, request, Blueprint, session
 from flask.views import MethodView
 
 from http_errors import HttpError
-from model import Session, Advertisement, User
+from model import Session, Advertisement
 from schema import validate_create_item, ValidateGetItem
 from users import is_authenticated, is_owner
 
@@ -45,13 +45,11 @@ class AdvertView(MethodView):
     def __init__(self, model):
         self.model = model
 
-
     def get(self, item_id):
         with Session as sess:
             stmt = get_item(item_id, sess, self.model)
             serialized = ValidateGetItem.from_orm(stmt).dict()
         return jsonify(serialized)
-
 
     @is_authenticated
     def post(self):
@@ -62,16 +60,14 @@ class AdvertView(MethodView):
             add_item(validated_data, sess, self.model)
         return jsonify({'method': 'POST', 'status': 'OK'})
 
-
     @is_authenticated
     def delete(self, item_id):
         with Session as sess:
             stmt = get_item(item_id, sess, self.model)
             if is_owner(stmt):
                 delete_item(stmt, sess)
-                return {'method': 'DELETE', 'resonse': 'ok'}
-            return {'status': 'error', 'message': 'not owner'}
-
+                return jsonify({'method': 'DELETE', 'resonse': 'ok'})
+            return jsonify({'status': 'error', 'message': 'not owner'})
 
     @is_authenticated
     def patch(self, item_id):
@@ -80,9 +76,11 @@ class AdvertView(MethodView):
             stmt = get_item(item_id, session, self.model)
             if is_owner(stmt):
                 patch_item(stmt, data, sess)
-                return {'method': 'PATCH', 'resonse': 'ok'}
-            return {'status': 'error', 'message': 'not owner'}
+                return jsonify({'method': 'PATCH', 'resonse': 'ok'})
+            return jsonify({'status': 'error', 'message': 'not owner'})
 
 
-bp.add_url_rule('/<int:item_id>', view_func=AdvertView.as_view('advt_mod', Advertisement), methods=['GET', 'PATCH', 'DELETE'])
-bp.add_url_rule('/', view_func=AdvertView.as_view('advt_create', Advertisement), methods=['POST'])
+bp.add_url_rule('/<int:item_id>', view_func=AdvertView.as_view(
+    'advt_mod', Advertisement), methods=['GET', 'PATCH', 'DELETE'])
+bp.add_url_rule('/', view_func=AdvertView.as_view(
+    'advt_create', Advertisement), methods=['POST'])

@@ -63,4 +63,3 @@ def is_authenticated(func):
 
 def is_owner(stmt):
     return True if session.get('user') == stmt.owner_id else False
-        

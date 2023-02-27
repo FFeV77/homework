@@ -1,5 +1,7 @@
-from sqlalchemy import create_engine, String, Integer, ForeignKey, URL, TIMESTAMP, DateTime
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, Session
+from sqlalchemy import (create_engine, String, Integer,
+                        ForeignKey, URL, DateTime)
+from sqlalchemy.orm import (DeclarativeBase, Mapped, Session,
+                            mapped_column, relationship)
 from sqlalchemy.sql.expression import func
 import config
 
@@ -12,7 +14,6 @@ db_url = URL.create(
     port=config.DB_PORT,
     database=config.DB_NAME
 )
-
 engine = create_engine(db_url, echo=True)
 Session = Session(engine)
 
@@ -43,12 +44,6 @@ class Advertisement(Base):
 
     user: Mapped['User'] = relationship(back_populates='advertisements')
 
-    def __repr__(self):
-        return {
-            'title': self.title,
-            'description': self.description,
-            'date': self.date
-        }
 
 if __name__ == '__main__':
     with engine.connect() as conn:

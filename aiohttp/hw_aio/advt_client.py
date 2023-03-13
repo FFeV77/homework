@@ -31,38 +31,43 @@ with requests.Session() as s:
     # respsonse = s.post(link + '/user/register', json={'name': 'seven', 'email': 'test@test.ru', 'pwd': 'test'})
     # print(respsonse.status_code)
     # print(respsonse.text)
+
     respsonse = s.post(link + '/user/login', json={"name": "seven", "pwd": "test"})
-    assert respsonse.status_code == 200
     print(respsonse.status_code)
     print(respsonse.text)
+
     # respsonse = s.post(link + '/advert', json={"title": "test xxxXXxxx", "description": "five desc"})
     # print(respsonse.status_code)
     # print(respsonse.text)
-    respsonse = s.get(link + '/advert/15')
-    assert respsonse.status_code == 200
+
+    respsonse = s.get(link + '/advert/18')
     print(respsonse.status_code)
     print(respsonse.text)
-    respsonse = s.patch(link + '/advert/15', json={'description': 'new six desc'})
-    assert respsonse.status_code == 403
-    print(respsonse.status_code)
-    print(respsonse.text)
-    respsonse = s.patch(link + '/advert/16', json={'description': 'new six desc'})
-    assert respsonse.status_code == 200
-    print(respsonse.status_code)
-    print(respsonse.text)
-    respsonse = s.get(link + '/advert/16')
-    assert respsonse.status_code == 200
-    print(respsonse.status_code)
-    print(respsonse.text)
-    respsonse = s.delete(link + '/advert/15')
-    print(respsonse.status_code)
-    print(respsonse.text)
-    respsonse = s.delete(link + '/advert/16')
-    print(respsonse.status_code)
-    print(respsonse.text)
-    respsonse = s.get(link + '/advert/16')
-    print(respsonse.status_code)
-    print(respsonse.text)
+
+    # respsonse = s.patch(link + '/advert/10', json={'description': 'new six desc'})
+    # print(respsonse.status_code)
+    # print(respsonse.text)
+
+    # respsonse = s.patch(link + '/advert/19', json={'description': 'new six desc'})
+    # print(respsonse.status_code)
+    # print(respsonse.text)
+
+    # respsonse = s.get(link + '/advert/19')
+    # print(respsonse.status_code)
+    # print(respsonse.text)
+
+    # respsonse = s.delete(link + '/advert/15')
+    # print(respsonse.status_code)
+    # print(respsonse.text)
+
+    # respsonse = s.delete(link + '/advert/19')
+    # print(respsonse.status_code)
+    # print(respsonse.text)
+
+    # # respsonse = s.get(link + '/advert/17')
+    # # print(respsonse.status_code)
+    # # print(respsonse.text)
+
     respsonse = s.post(link + '/user/logout')
     print(respsonse.status_code)
     print(respsonse.text)

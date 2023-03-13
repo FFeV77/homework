@@ -1,4 +1,5 @@
-from sqlalchemy import (String, Integer,
+from aiohttp.web import HTTPNotFound
+from sqlalchemy import (String, Integer, select,
                         ForeignKey, URL, DateTime)
 from sqlalchemy.orm import (DeclarativeBase, Mapped,
                             mapped_column, relationship)
@@ -33,6 +34,17 @@ class User(Base):
 
     advertisements: Mapped[list['Advertisement']] = relationship(back_populates='user')
 
+    @staticmethod
+    async def get(sess, name):
+        stmt = await sess.scalar(select(User).where(User.name == name))
+        return stmt
+
+    @staticmethod
+    async def add(sess, data):
+        user = User(**data)
+        sess.add(user)
+        await sess.commit()
+
 
 class Advertisement(Base):
     __tablename__ = 'advertisement'
@@ -45,8 +57,27 @@ class Advertisement(Base):
 
     user: Mapped['User'] = relationship(back_populates='advertisements')
 
+    @staticmethod
+    async def get(item_id, session):
+        item_id = int(item_id)
+        item = await session.get(Advertisement, item_id)
+        if not item:
+            raise HTTPNotFound(text='item not found')
+        return item
 
-# async def migrate_db():
-#     async with Session() as session:
-#         Base.metadata.drop_all(engine)
-#         Base.metadata.create_all(engine)
+    @staticmethod
+    async def add(data, session):
+        new_item = Advertisement(**data)
+        session.add(new_item)
+        await session.commit()
+
+    @staticmethod
+    async def patch(stmt, data, session):
+        for key, val in data.items():
+            setattr(stmt, key, val)
+        await session.commit()
+
+    @staticmethod
+    async def delete(stmt, session):
+        await session.delete(stmt)
+        await session.commit()

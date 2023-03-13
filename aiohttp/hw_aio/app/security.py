@@ -1,4 +1,15 @@
 import bcrypt
+from aiohttp_security import AbstractAuthorizationPolicy
+
+
+class SimplePolicy(AbstractAuthorizationPolicy):
+    async def authorized_userid(self, identity):
+        return identity
+
+    async def permits(self, identity, permission, context=None):
+        if identity == permission:
+            return True
+        return False
 
 
 def generate_password_hash(password):

@@ -36,9 +36,9 @@ with requests.Session() as s:
     print(respsonse.status_code)
     print(respsonse.text)
 
-    # respsonse = s.post(link + '/advert', json={"title": "test xxxXXxxx", "description": "five desc"})
-    # print(respsonse.status_code)
-    # print(respsonse.text)
+    respsonse = s.post(link + '/advert', json={"description": "five desc"})
+    print(respsonse.status_code)
+    print(respsonse.text)
 
     respsonse = s.get(link + '/advert/18')
     print(respsonse.status_code)

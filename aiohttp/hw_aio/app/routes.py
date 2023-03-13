@@ -4,7 +4,7 @@ from aiohttp import web
 
 def setup_routes(app):
     user_handler = UserView()
-    
+
     app.add_routes([
         web.get('/advert/{item_id:\d+}', AdvertisementView),
         web.post('/advert', AdvertisementView),

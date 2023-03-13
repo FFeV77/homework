@@ -1,7 +1,7 @@
+from aiohttp.web import HTTPBadRequest
 from datetime import datetime
 from pydantic import BaseModel
 from pydantic.error_wrappers import ValidationError
-from http_errors import HttpError
 
 
 class ValidateCreateUser(BaseModel):
@@ -35,7 +35,7 @@ def validate_create_item(data):
         advert = ValidateCreateItem(**data)
         return advert.dict()
     except ValidationError as er:
-        raise HttpError(400, er.errors())
+        raise HTTPBadRequest(text=er.json())
 
 
 def validate_create_user(data):
@@ -43,4 +43,4 @@ def validate_create_user(data):
         user = ValidateCreateUser(**data)
         return user.dict()
     except ValidationError as er:
-        raise HttpError(400, er.errors())
+        raise HTTPBadRequest(text=er.json())

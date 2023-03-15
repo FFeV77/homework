@@ -6,6 +6,7 @@ URL = '0.0.0.0'
 PORT = '8080'
 link = ''.join(['http://', URL, ':', PORT])
 
+
 @pytest.fixture
 async def client(aiohttp_client):
     app = await init()

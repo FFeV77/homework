@@ -5,6 +5,12 @@ from pydantic import BaseModel
 from pydantic.error_wrappers import ValidationError
 
 
+class ValidateLoginUser(BaseModel):
+
+    name: str
+    pwd: str
+
+
 class ValidateCreateUser(BaseModel):
 
     name: str
@@ -39,9 +45,17 @@ def validate_create_item(data):
         raise HTTPBadRequest(text=er.json())
 
 
-def validate_create_user(data):
+async def validate_create_user(data):
     try:
         user = ValidateCreateUser(**data)
+        return user.dict()
+    except ValidationError as er:
+        raise HTTPBadRequest(text=er.json())
+
+
+async def validate_login_user(data):
+    try:
+        user = ValidateLoginUser(**data)
         return user.dict()
     except ValidationError as er:
         raise HTTPBadRequest(text=er.json())

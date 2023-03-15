@@ -35,6 +35,8 @@ class User(Base):
     @staticmethod
     async def get(sess, name):
         stmt = await sess.scalar(select(User).where(User.name == name))
+        # if not stmt:
+        #     raise HTTPNotFound(text='user not found')
         return stmt
 
     @staticmethod

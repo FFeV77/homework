@@ -7,7 +7,7 @@ from aioapp_advert.routes import setup_routes
 from aioapp_advert.security import SimplePolicy
 
 
-def init():
+async def init():
     middleware = session_middleware(SimpleCookieStorage())
     app = Application(middlewares=[middleware])
     setup_policy(app, CookiesIdentityPolicy(), SimplePolicy())

@@ -4,7 +4,7 @@ from aiohttp_security import (authorized_userid, check_authorized,
 
 from aioapp_advert.model import Advertisement, Session, User
 from aioapp_advert.schema import (ValidateGetItem, validate_create_item,
-                                  validate_create_user)
+                                  validate_create_user, validate_login_user)
 from aioapp_advert.security import check_password_hash, generate_password_hash
 
 
@@ -52,7 +52,7 @@ class AdvertisementView(View):
 
 
 class UserView:
-    def _init__(self):
+    def __init__(self):
         pass
 
     async def register(self, request):
@@ -69,14 +69,15 @@ class UserView:
 
     async def login(self, request):
         data = await request.json()
+        validated_data = await validate_login_user(data)
 
         async with Session() as sess:
-            user = await User.get(sess, data["name"])
-            if check_password_hash(data["pwd"], user.pwd):
+            user = await User.get(sess, validated_data.get('name'))
+            if user and check_password_hash(validated_data.get('pwd'), user.pwd):
                 response = json_response({"status": "ok", 'message': 'authorized'})
                 await remember(request, response, str(user.id))
                 return response
-            return json_response({'status': 'error', 'message': 'not permitted for user'})
+            return json_response({'status': 'error', 'message': 'wrong user data'})
 
     async def logout(self, request):
         response = json_response({'status': 'ok', 'message': 'user logout'})

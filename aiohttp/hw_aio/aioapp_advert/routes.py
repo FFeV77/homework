@@ -1,5 +1,6 @@
-from views import AdvertisementView, UserView
 from aiohttp import web
+
+from aioapp_advert.views import AdvertisementView, UserView
 
 
 def setup_routes(app):

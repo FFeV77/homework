@@ -1,5 +1,6 @@
-from aiohttp.web import HTTPBadRequest
 from datetime import datetime
+
+from aiohttp.web import HTTPBadRequest
 from pydantic import BaseModel
 from pydantic.error_wrappers import ValidationError
 

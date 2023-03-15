@@ -1,6 +1,5 @@
-from sqlalchemy import create_engine, MetaData
-
 import model
+from sqlalchemy import MetaData, create_engine
 
 engine = create_engine(model.db_url)
 metadata = MetaData()

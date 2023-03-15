@@ -1,12 +1,10 @@
 from aiohttp.web import HTTPNotFound
-from sqlalchemy import (String, Integer, select,
-                        ForeignKey, URL, DateTime)
-from sqlalchemy.orm import (DeclarativeBase, Mapped,
-                            mapped_column, relationship)
+from sqlalchemy import URL, DateTime, ForeignKey, Integer, String, select
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.sql.expression import func
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-import config
 
+import aioapp_advert.config as config
 
 db_url = URL.create(
     drivername='+'.join([config.DB_DIALECT, config.DB_DRIVER]),

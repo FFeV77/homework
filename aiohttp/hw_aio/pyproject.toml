@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Andrey Shishov <a.5920311@yandex.ru>"]
 readme = "README.md"
-packages = [{include = "app"}]
+packages = [{include = "aioapp_advert"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -13,7 +13,6 @@ pydantic = "^1.10.4"
 sqlalchemy = "^2.0.2"
 psycopg2-binary = "^2.9.5"
 environs = "^9.5.0"
-pytest = "^7.2.1"
 coverage = "^7.2.1"
 aiohttp = "^3.8.4"
 cchardet = "^2.1.7"
@@ -23,10 +22,12 @@ bcrypt = "^4.0.1"
 aiohttp-session = "^2.12.0"
 cryptography = "^39.0.2"
 aiohttp-security = {extras = ["session"], version = "^0.4.0"}
+pytest-aiohttp = "^1.0.4"
 
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
+ipykernel = "^6.21.3"
 
 [build-system]
 requires = ["poetry-core"]
